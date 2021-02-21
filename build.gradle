@@ -1,0 +1,27 @@
+plugins {
+   id 'application'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '2.0.0-alpha1'
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.0-alpha1'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+application {
+    // Define the main class for the application.
+    mainClass = 'com.dmgorbunov.frustaj.App'
+}
+
+tasks.named('test') {
+    // Use junit platform for unit tests.
+    useJUnitPlatform()
+}
