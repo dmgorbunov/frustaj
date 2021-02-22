@@ -33,14 +33,6 @@ public class FLPReader {
         return result.toString();
     }
 
-    private byte[] float2ByteArray (float value) {
-        return ByteBuffer.allocate(4).putFloat(value).array();
-    }
-
-    private String floatToString(float value) {
-        return byteToString(float2ByteArray(value));
-    }
-
     private LocalDateTime baseTime() {
         return LocalDateTime.of(1899, Month.DECEMBER, 29, 23, 59, 59);
     }
