@@ -79,17 +79,13 @@ public class FLPReader {
             while (in.available() > 0) {
 
                 long nextEvent = Integer.toUnsignedLong(in.read());
-                FLPEventType eventType = FLPEventType.find(nextEvent);
 
                 if (nextEvent <= 63) {
-                    int nextByte = in.read();
-                    logEvent(eventType, nextByte);
+                    logEvent(FLPEventType.find(nextEvent), in.read());
                 } else if (nextEvent <= 127) {
-                    short nextShort = in.readShort(); // 2 bytes
-                    logEvent(eventType, nextShort);
+                    logEvent(FLPEventType.find(nextEvent), in.readShort());
                 } else if (nextEvent <= 191) {
-                    int nextInt = in.readInt();  // 4 bytes
-                    logEvent(eventType, nextInt);
+                    logEvent(FLPEventType.find(nextEvent), in.readInt());
                 } else {
 
                     long blockSize = 0;
@@ -104,13 +100,9 @@ public class FLPReader {
 
                     byte[] bytes = in.readNBytes((int)blockSize);
 
-                    FLPEvent<?> event = FLPEvent.build(eventType, bytes);
-                    if (!eventType.isSkippable())
-                        log.info("{}", event);
-
-                    switch (eventType) {
-                        case TEXT_VERSION -> projectFile.setFlVersion(new String(Arrays.copyOfRange(bytes, 0, bytes.length-1)));
-                        case TEXT_TITLE -> projectFile.setTitle(decode(bytes));
+                    switch (FLPEventType.find(nextEvent)) {
+                        case USED_FL_VERSION -> projectFile.setFlVersion(new String(Arrays.copyOfRange(bytes, 0, bytes.length-1)));
+                        case SONG_TITLE -> projectFile.setTitle(decode(bytes));
                         case TEXT_AUTHOR -> projectFile.setAuthor(decode(bytes));
                         case TEXT_GENRE -> projectFile.setGenre(decode(bytes));
                         case TEXT_PROJECT_TIME -> {

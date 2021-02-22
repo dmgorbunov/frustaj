@@ -35,130 +35,123 @@ public enum FLPEventType {
     PROJECT_TRUNCATE_CLIPNOTES(30),
     PROJECT_EEAUTOMODE(31),
 
-    NEWCHAN(FLPEventType.WORD),
-    NEWPAT( FLPEventType.WORD + 1),
-    TEMPO(FLPEventType.WORD + 2),
-    CURRENT_PATTERN_NUMBER(FLPEventType.WORD + 3),
-    PATDATA(FLPEventType.WORD + 4),
+    NEWCHAN(64),
+    NEWPAT(65),
+    TEMPO(66),
+    CURRENT_PATTERN_NUMBER(67),
+    PATDATA(68),
 
-    FADE_STEREO(FLPEventType.WORD + 6), // FX Flags?
+    FADE_STEREO(70),
 
-    FX(FLPEventType.WORD + 5),
-    FX3(FLPEventType.WORD + 22),
-    CUTOFF(FLPEventType.WORD + 7),
-    RESONANCE(FLPEventType.WORD + 19),
+    FX(69),
+    FX3(86),
+    CUTOFF(71),
+    RESONANCE(83),
 
-    DOTVOL(FLPEventType.WORD + 8),
-    DOTPAN(FLPEventType.WORD + 9),
-    PREAMP(FLPEventType.WORD + 10),
-    DECAY(FLPEventType.WORD + 11),
-    ATTACK(FLPEventType.WORD + 12),
-    DOTNOTE(FLPEventType.WORD + 13),
-    DOTPITCH(FLPEventType.WORD + 14),
-    DOTMIX(FLPEventType.WORD + 15),
-    MAINPITCH(FLPEventType.WORD + 16),
-    RANDCHAN(FLPEventType.WORD + 17),
-    MIXCHAN(FLPEventType.WORD + 18),
+    DOTVOL(72),
+    DOTPAN(73),
+    PREAMP(74),
+    DECAY(75),
+    ATTACK(76),
+    DOTNOTE(77),
+    DOTPITCH(78),
+    DOTMIX(79),
+    MAINPITCH(80),
+    RANDCHAN(81),
+    MIXCHAN(82),
 
-    LOOPBAR(FLPEventType.WORD + 20),
-    STDEL(FLPEventType.WORD + 21),
+    LOOPBAR(84),
+    STDEL(85),
 
-    DOTRESO(FLPEventType.WORD + 23),
-    DOTCUTOFF(FLPEventType.WORD + 24),
-    SHIFTDELAY(FLPEventType.WORD + 25),
-    LOOPENDBAR(FLPEventType.WORD + 26),
-    DOT(FLPEventType.WORD + 27),
-    DOTSHIFT(FLPEventType.WORD + 28),
-    LAYERCHANS(FLPEventType.WORD + 30),
-    DOT_REL(FLPEventType.WORD + 32),
-    SWING_MIX(FLPEventType.WORD + 33),
+    DOTRESO(87),
+    DOTCUTOFF(88),
+    SHIFTDELAY(89),
+    LOOPENDBAR(90),
+    DOT(91),
+    DOTSHIFT(92),
+    LAYERCHANS(94),
+    DOT_REL(96),
+    SWING_MIX(97),
 
-    PLAYLISTITEM(FLPEventType.INT + 1),
-    ECHO(FLPEventType.INT + 2),
-    FXSINE(FLPEventType.INT + 3),
-    CUTCUTBY(FLPEventType.INT + 4),
-    WINDOWH(FLPEventType.INT + 5),
-    MIDDLENOTE(FLPEventType.INT + 7),
-    RESERVED(FLPEventType.INT + 8),
-    MAINRESOCUTOFF(FLPEventType.INT + 9),
-    DELAYRESO(FLPEventType.INT + 10),
-    REVERB(FLPEventType.INT + 11),
-    INTSTRETCH(FLPEventType.INT + 12),
-    SSNOTE(FLPEventType.INT + 13),
-    FINETUNE(FLPEventType.INT + 14),
-    SAMPLE_FLAGS(FLPEventType.INT + 15),
-    LAYER_FLAGS(FLPEventType.INT + 16),
-    CHAN_FILTER_NUM(FLPEventType.INT + 17),
-    CURRENT_FILTER_NUM(FLPEventType.INT + 18),
-    FX_OUT_CHAN_NUM(FLPEventType.INT + 19),
-    NEW_TIME_MARKER(FLPEventType.INT + 20),
-    FX_COLOR(FLPEventType.INT + 21),
-    PATTERN_COLOR(FLPEventType.INT + 22),
-    PATTERN_AUTO_MODE(FLPEventType.INT + 23), // obsolete
-    SONG_LOOP_POSITION(FLPEventType.INT + 24),
-    AU_SMP_RATE(FLPEventType.INT +25),
-    FX_IN_CHANNEL_NUM(FLPEventType.INT + 26),
+    PLAYLISTITEM(129),
+    ECHO(130),
+    FXSINE(131),
+    CUTCUTBY(132),
+    WINDOWH(133),
+    MIDDLENOTE(135),
+    RESERVED(136),
+    MAINRESOCUTOFF(137),
+    DELAYRESO(138),
+    REVERB(139),
+    INTSTRETCH(140),
+    SSNOTE(141),
+    FINETUNE(142),
+    SAMPLE_FLAGS(143),
+    LAYER_FLAGS(144),
+    CHAN_FILTER_NUM(145),
+    CURRENT_FILTER_NUM(146),
+    FX_OUT_CHAN_NUM(147),
+    NEW_TIME_MARKER(148),
+    FX_COLOR(149),
+    PATTERN_COLOR(150),
+    PATTERN_AUTO_MODE(151),
+    SONG_LOOP_POSITION(152),
+    AU_SMP_RATE(153),
+    FX_IN_CHANNEL_NUM(154),
 
-    FINE_TEMPO(FLPEventType.INT + 28),
+    FINE_TEMPO(156),
 
-    TEXT_CHANNAME(FLPEventType.TEXT),
-    TEXT_PATNAME(FLPEventType.TEXT + 1),
-    TEXT_TITLE(FLPEventType.TEXT + 2),
-    TEXT_COMMENT(FLPEventType.TEXT + 3),
-    TEXT_SAMPLEFILENAME(FLPEventType.TEXT + 4),
-    TEXT_URL(FLPEventType.TEXT + 5),
-    TEXT_COMMENT_RTF(FLPEventType.TEXT + 6),
-    TEXT_VERSION(FLPEventType.TEXT + 7),
+    // Song metadata
+    CHANNEL_NAME(192),
+    PATTERN_NAME(193),
+    SONG_TITLE(194),
+    SONG_COMMENT(195),
+    SAMPLE_FILENAME(196),
+    SONG_URL(197),
+    SONG_COMMENT_RTF(198),
+    USED_FL_VERSION(199),
 
-    TEXT_DATAPATH(FLPEventType.TEXT + 10),
-    TEXT_EFFECTCHANNAME(FLPEventType.TEXT + 12),
-    TEXT_GENRE(FLPEventType.TEXT + 14),
-    TEXT_AUTHOR(FLPEventType.TEXT + 15),
-    TEXT_MIDICTRLS(FLPEventType.TEXT + 16),
-    TEXT_DELAY(FLPEventType.TEXT + 17),
-    TEXT_TS404PARAMS(FLPEventType.TEXT + 18),
-    TEXT_DELAYLINE(FLPEventType.TEXT + 19),
+    TEXT_DATAPATH(202),
+    TEXT_EFFECTCHANNAME(204),
+    TEXT_GENRE(206),
+    TEXT_AUTHOR(207),
+    TEXT_MIDICTRLS(208),
+    TEXT_DELAY(209),
+    TEXT_TS404PARAMS(210),
+    TEXT_DELAYLINE(211),
 
     // Plug-ins
-    TEXT_PLUGIN(FLPEventType.TEXT + 20),
-    COLOR(FLPEventType.INT),
-    TEXT_PLUGIN_NAME_DEFAULT(FLPEventType.TEXT + 9),
-    TEXT_PLUGIN_NAME(FLPEventType.TEXT + 11),
-    PLUGIN_ICON(FLPEventType.INT + 27),
+    TEXT_PLUGIN(212),
+    COLOR(128),
+    TEXT_PLUGIN_NAME_DEFAULT(201),
+    TEXT_PLUGIN_NAME(203),
+    PLUGIN_ICON(155),
 
-    TEXT_PLUGINPARAMS(FLPEventType.TEXT + 21),
-    TEXT_CHANPARAMS(FLPEventType.TEXT + 23),
-    TEXT_ENVLFOPARAMS(FLPEventType.TEXT + 26),
-    TEXT_BASICCHANPARAMS(FLPEventType.TEXT + 27),
-    TEXT_OLDFILTERPARAMS(FLPEventType.TEXT + 28),
-    TEXT_AUTOMATIONDATA(FLPEventType.TEXT + 31),
-    TEXT_PATTERNNOTES(FLPEventType.TEXT + 32),
-    TEXT_CHANGROUPNAME(FLPEventType.TEXT + 39),
-    TEXT_PLAYLISTITEMS(FLPEventType.TEXT + 41), // 233
-    TEXT_PROJECT_TIME(FLPEventType.TEXT + 45);
-
-    private final static int BYTE = 0;
-    private final static int WORD = 64;
-    private final static int INT = 128;
-    private final static int TEXT = 192;
+    TEXT_PLUGINPARAMS(213),
+    TEXT_CHANPARAMS(215),
+    TEXT_ENVLFOPARAMS(218),
+    TEXT_BASICCHANPARAMS(219),
+    TEXT_OLDFILTERPARAMS(220),
+    TEXT_AUTOMATIONDATA(223),
+    TEXT_PATTERNNOTES(224),
+    TEXT_CHANGROUPNAME(231),
+    TEXT_PLAYLISTITEMS(233),
+    TEXT_PROJECT_TIME(237);
 
     private final long value;
-    private final SubClass subClass;
+    private final SubType subType;
 
     FLPEventType(int value) {
         this.value = value;
-        if (value <= 63) this.subClass = SubClass.BYTE;
-        else if (value <= 127) this.subClass = SubClass.WORD;
-        else if (value <= 191) this.subClass = SubClass.INT;
-        else this.subClass = SubClass.TEXT;
+        this.subType = SubType.find(value);
     }
 
     public long getValue() {
         return value;
     }
 
-    public SubClass getSubClass() {
-        return subClass;
+    public SubType getSubType() {
+        return subType;
     }
 
     public boolean isSkippable() {
@@ -169,11 +162,27 @@ public enum FLPEventType {
                         || this == FX_OUT_CHAN_NUM;
     }
 
-    public enum SubClass {
-        BYTE,
-        WORD,
-        INT,
-        TEXT;
+    public enum SubType {
+        BYTE(0),
+        WORD(64),
+        INT(128),
+        DATA(192);
+
+        public final int offset;
+
+        SubType(int offset) {
+            this.offset = offset;
+        }
+
+        public static SubType find(int id) {
+            if (id < WORD.offset) {
+                return BYTE;
+            } else if (id < INT.offset) {
+                return WORD;
+            } else if (id < DATA.offset) {
+                return INT;
+            } else return DATA;
+        }
     }
 
     public static FLPEventType find(long id) {

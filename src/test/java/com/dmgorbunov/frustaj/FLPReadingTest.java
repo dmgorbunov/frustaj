@@ -35,7 +35,7 @@ public class FLPReadingTest {
 
     private static Stream<Arguments> readingTestDataProvider() {
         return Stream.of(
-                Arguments.arguments("Test001.flp", "Test author", "Test genre", "Test title", "20.8.0.1377", 35)
+                Arguments.arguments("flp-files/Test001.flp", "Test author", "Test genre", "Test title", "20.8.0.1377", 35)
         );
     }
 

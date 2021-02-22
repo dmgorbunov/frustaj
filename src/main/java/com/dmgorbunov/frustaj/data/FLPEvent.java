@@ -1,16 +1,23 @@
 package com.dmgorbunov.frustaj.data;
 
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.function.Function;
 
 public class FLPEvent<T> {
 
+    private final long id;
     private final FLPEventType type;
     private final T content;
 
-    private FLPEvent(FLPEventType type, T content) {
+    public FLPEvent(long id, FLPEventType type, T content) {
+        this.id = id;
         this.type = type;
         this.content = content;
+    }
+
+    public FLPEvent(long id, T content) {
+        this(id, FLPEventType.find(id), content);
     }
 
     public T getContent() {
@@ -21,17 +28,24 @@ public class FLPEvent<T> {
         return type;
     }
 
+    public static <T> FLPEvent<T> build(long id, byte[] bytes, Function<byte[], T> mappingFunction) {
+        return new FLPEvent<>(id, FLPEventType.find(id), mappingFunction.apply(bytes));
+    }
+
+    public static FLPEvent<String> build(long id, byte[] bytes) {
+        return build(id, bytes, Arrays::toString);
+    }
+
+    public static FLPEvent<String> build(long id, byte[] bytes, Charset charset) {
+        return build(id, bytes, b -> new String(b, charset));
+    }
+
     @Override
     public String toString() {
-        return String.format("FLPEvent{%s=%s}", type, content);
+        return String.format("FLPEvent{%d (%s): %s}", id, type, content);
     }
 
-    public static <T> FLPEvent<?> build(FLPEventType type, byte[] bytes) {
-        return switch (type) {
-            case TEXT_TITLE, TEXT_COMMENT, TEXT_AUTHOR, TEXT_GENRE, TEXT_VERSION ->
-                    new FLPEvent<>(type, new String(bytes, StandardCharsets.UTF_8));
-            default -> new FLPEvent<>(type, Arrays.toString(Arrays.copyOfRange(bytes, 0, 8)));
-        };
+    public long getId() {
+        return id;
     }
-
 }
