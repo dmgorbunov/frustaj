@@ -1,11 +1,14 @@
 package com.dmgorbunov.frustaj.model;
 
+import com.dmgorbunov.frustaj.tools.StringUtils;
+
+import java.nio.file.Path;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class ProjectFile {
     private boolean isCorrupted = false;
-    private String path;
+    private Path path;
     private String flVersion;
     private String title;
     private String author;
@@ -16,11 +19,11 @@ public class ProjectFile {
 
     public ProjectFile() {}
 
-    public String getPath() {
+    public Path getPath() {
         return path;
     }
 
-    public void setPath(String path) {
+    public void setPath(Path path) {
         this.path = path;
     }
 
@@ -74,8 +77,8 @@ public class ProjectFile {
 
     @Override
     public String toString() {
-        return String.format("Project{title=%s, createdDate=%s, time spent: %d hours, %d minutes}",
-                title, createdAt, timeSpent.toHoursPart(), timeSpent.toMinutes());
+        return String.format("Project{file=%s, title=%s, createdDate=%s, time spent: %s}",
+                path.getFileName(), title, createdAt, StringUtils.formatDuration(timeSpent));
     }
 
     public Duration getTimeSpent() {

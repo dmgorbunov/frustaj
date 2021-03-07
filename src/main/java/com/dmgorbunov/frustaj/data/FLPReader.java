@@ -7,7 +7,9 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
@@ -16,57 +18,47 @@ public class FLPReader {
 
     private final Logger log = LoggerFactory.getLogger(FLPReader.class);
 
-    private String readChunk(InputStream in, int length) throws IOException {
-        return new String(in.readNBytes(length));
-    }
-
     private void logEvent(FLPEventType event, Object value) {
         if (!event.isSkippable())
-            log.info("({}) {}={}", event.getValue(), event, value);
-    }
-
-    private String byteToString(byte[] chunk) {
-        StringBuilder result = new StringBuilder();
-        for (byte b : chunk){
-            result.append((char) b);
-        }
-        return result.toString();
+            log.debug("({}) {}={}", event.getValue(), event, value);
     }
 
     private LocalDateTime baseTime() {
         return LocalDateTime.of(1899, Month.DECEMBER, 29, 23, 59, 59);
     }
 
-    public ProjectFile read(String filename) {
+    public ProjectFile read(Path path) {
 
         ProjectFile projectFile = new ProjectFile();
-        projectFile.setPath(filename);
+        projectFile.setPath(path);
+        String filename = path.toAbsolutePath().toString();
 
         try (DataInputStream in = new DataInputStream(new FileInputStream(filename))) {
 
-            String fileHeader = readChunk(in, 4);
+            String fileHeader = decode(in.readNBytes(4), StandardCharsets.UTF_8);
             if (!fileHeader.equals("FLhd")) {
+                log.error("Not a valid FL project file: {}", filename);
                 projectFile.setCorrupted(true);
                 return projectFile;
             } else {
-                log.info("File header: {}", fileHeader);
+                log.debug("File header: {}", fileHeader);
             }
 
-            log.info("Length: {}", in.readNBytes(4));
-            log.info("Format: {}", in.readNBytes(2));
-            log.info("nChannels: {}", in.readNBytes(2));
-            log.info("BeatDiv: {}", in.readNBytes(2));
+            log.debug("Length: {}", in.readNBytes(4));
+            log.debug("Format: {}", in.readNBytes(2));
+            log.debug("nChannels: {}", in.readNBytes(2));
+            log.debug("BeatDiv: {}", in.readNBytes(2));
 
-            String dataHeader = readChunk(in, 4);
+            String dataHeader = decode(in.readNBytes(4), StandardCharsets.UTF_8);
             if (!dataHeader.equals("FLdt")) {
                 projectFile.setCorrupted(true);
                 return projectFile;
             } else {
-                log.info("Data chunk start");
+                log.debug("Data chunk start");
             }
 
             byte[] dataLength = in.readNBytes(4);
-            log.info("Chunk length: {}", ByteBuffer.wrap(dataLength).getInt());
+            log.debug("Chunk length: {}", ByteBuffer.wrap(dataLength).getInt());
 
             while (in.available() > 0) {
 
@@ -105,15 +97,21 @@ public class FLPReader {
                 }
             }
         } catch (IOException e) {
+            log.error("Unable to parse file: {}", filename);
             e.printStackTrace();
+            projectFile.setCorrupted(true);
         }
 
         return projectFile;
     }
 
+    private String decode(byte[] a, Charset charset) {
+        return new String(a, charset);
+    }
+
     private String decode(byte[] a) {
         // NUL termination is a wrong salute, no one needs them
-        return new String(a, StandardCharsets.UTF_16LE).replace("\0", "");
+        return decode(a, StandardCharsets.UTF_16LE).replace("\0", "");
     }
 
     private Duration decodeDuration(byte[] a, int startIndex, int length) {
