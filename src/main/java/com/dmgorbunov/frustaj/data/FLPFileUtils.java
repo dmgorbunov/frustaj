@@ -5,22 +5,17 @@ import com.dmgorbunov.frustaj.model.ProjectFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiPredicate;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class FLPFileUtils {
 
-    private static final Pattern FLP_PATTERN = Pattern.compile("([_ ])?([0-9]{1,5})?(.flp)$");
     private static final String FLP_EXTENSION = ".flp";
     private static final Logger log = LoggerFactory.getLogger(FLPFileUtils.class);
 
@@ -42,10 +37,7 @@ public class FLPFileUtils {
 
         try {
             FLPReader reader = new FLPReader();
-
-
-            List<Path> paths = Files.find(Paths.get(directory), Integer.MAX_VALUE, FILE_MATCHER)
-                    .limit(20).collect(Collectors.toList());
+            List<Path> paths = Files.find(Paths.get(directory), Integer.MAX_VALUE, FILE_MATCHER).collect(Collectors.toList());
 
             for (Path path : paths) {
                  String projectName = processName(path.getFileName().toString());
