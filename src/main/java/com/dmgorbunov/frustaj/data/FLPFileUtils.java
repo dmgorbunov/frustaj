@@ -18,14 +18,19 @@ public class FLPFileUtils {
 
     private static final String FLP_EXTENSION = ".flp";
     private static final Logger log = LoggerFactory.getLogger(FLPFileUtils.class);
+    private static String KEYWORDS_EXCLUDE = System.getenv("flp.name.exclude");
 
     private static String processName(String input) {
-        return input
-                .replace(".flp", "")
+        String v = input.replace(".flp", "")
                 .replaceAll("^\\+|^[0-9]+([ -]+)?", "")
                 .replaceAll("_[0-9]+", "")
-                .replaceAll("\\([A-Za-z0-9 ]+\\)$", "")
-                .trim();
+                .replaceAll("\\([A-Za-z0-9 ]+\\)$", "");
+
+        for (String excluded : KEYWORDS_EXCLUDE.split(",")) {
+            v = v.replaceAll("([ -]+)?" + excluded + "([ -]+)?", "");
+        }
+
+        return v.replaceAll("^[_]+|[_]+$", "").trim();
     }
 
     private static final BiPredicate<Path, BasicFileAttributes> FILE_MATCHER = (path, attr) ->

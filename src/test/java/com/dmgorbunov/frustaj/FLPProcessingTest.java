@@ -18,6 +18,16 @@ public class FLPProcessingTest {
     private static final Logger log = LoggerFactory.getLogger(FLPProcessingTest.class);
 
     @Test
+    void customTest() {
+        Set<Project> projectSet = FLPFileUtils.process("/Users/dmitrygorbunov/Projects/FLS/In progress/_ prj - lofi");
+        for (Project project : projectSet) {
+            log.info("{}", project);
+            System.out.println("");
+        }
+
+    }
+
+    @Test
     void directoryProcessingTest() {
         Set<Project> projectSet = FLPFileUtils.process(ClassLoader.getSystemResource("flp-files/").getFile());
         Assertions.assertEquals(1, projectSet.size(), "Wrong set size");
