@@ -19,7 +19,7 @@ public class FLPProcessingTest {
 
     @Test
     void customTest() {
-        Set<Project> projectSet = FLPFileUtils.process("/Users/dmitrygorbunov/Projects/FLS/In progress/_ prj - lofi");
+        Set<Project> projectSet = FLPFileUtils.process("/Users/dmitrygorbunov/Projects/FLS/In progress");
         for (Project project : projectSet) {
             log.info("{}", project);
             System.out.println("");

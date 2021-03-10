@@ -1,5 +1,6 @@
 package com.dmgorbunov.frustaj.data;
 
+import com.dmgorbunov.frustaj.data.files.FLPNameModifier;
 import com.dmgorbunov.frustaj.model.Project;
 import com.dmgorbunov.frustaj.model.ProjectFile;
 import org.slf4j.Logger;
@@ -21,16 +22,18 @@ public class FLPFileUtils {
     private static String KEYWORDS_EXCLUDE = System.getenv("flp.name.exclude");
 
     private static String processName(String input) {
-        String v = input.replace(".flp", "")
-                .replaceAll("^\\+|^[0-9]+([ -]+)?", "")
-                .replaceAll("_[0-9]+", "")
-                .replaceAll("\\([A-Za-z0-9 ]+\\)$", "");
+        String v = input.replace(FLP_EXTENSION, "").trim();
+
+        for (FLPNameModifier mod : FLPNameModifier.DEFAULT_MODIFIERS) {
+            v = mod.getFunction().apply(v);
+        }
 
         for (String excluded : KEYWORDS_EXCLUDE.split(",")) {
             v = v.replaceAll("([ -]+)?" + excluded + "([ -]+)?", "");
         }
 
-        return v.replaceAll("^[_]+|[_]+$", "").trim();
+        return FLPNameModifier.REMOVE_LEADING_AND_TRAILING_UNDERSCORES.getFunction().apply(v);
+//        return v.replaceAll("^[_]+|[_]+$", "").trim();
     }
 
     private static final BiPredicate<Path, BasicFileAttributes> FILE_MATCHER = (path, attr) ->
