@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class Project {
+public class Project implements Comparable<Project> {
 
     private String name;
     private Duration totalTimeSpent = Duration.of(0, ChronoUnit.SECONDS);
@@ -34,6 +34,10 @@ public class Project {
         this.totalTimeSpent = this.totalTimeSpent.plus(file.getTimeSpent());
     }
 
+    public int getFileNumber() {
+        return fileSet.size();
+    }
+
     public Duration getTotalTimeSpent() {
         return totalTimeSpent;
     }
@@ -44,5 +48,10 @@ public class Project {
                 name,
                 StringUtils.formatDuration(totalTimeSpent),
                 fileSet.stream().map(ProjectFile::toString).collect(Collectors.joining("\n\t")));
+    }
+
+    @Override
+    public int compareTo(Project o) {
+        return this.totalTimeSpent.compareTo(o.totalTimeSpent);
     }
 }

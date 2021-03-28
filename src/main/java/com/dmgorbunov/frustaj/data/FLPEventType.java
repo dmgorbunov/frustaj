@@ -1,6 +1,7 @@
 package com.dmgorbunov.frustaj.data;
 
 import java.util.Arrays;
+import java.util.List;
 
 public enum FLPEventType {
 
@@ -90,7 +91,7 @@ public enum FLPEventType {
     LAYER_FLAGS(144),
     CHAN_FILTER_NUM(145),
     CURRENT_FILTER_NUM(146),
-    FX_OUT_CHAN_NUM(147),
+    FX_OUT_CHANNEL_NUM(147),
     NEW_TIME_MARKER(148),
     FX_COLOR(149),
     PATTERN_COLOR(150),
@@ -128,6 +129,36 @@ public enum FLPEventType {
     PLUGIN_ICON(155),
 
     TEXT_PLUGINPARAMS(213),
+
+    UNKNOWN_32(32),
+    UNKNOWN_35(35),
+    UNKNOWN_36(36),
+    UNKNOWN_37(37),
+    UNKNOWN_38(38),
+    UNKNOWN_39(39),
+    UNKNOWN_40(40),
+    UNKNOWN_95(95),
+    UNKNOWN_98(98),
+    UNKNOWN_99(99),
+    UNKNOWN_100(100),
+    UNKNOWN_157(157),
+    UNKNOWN_158(158),
+    UNKNOWN_159(159),
+    UNKNOWN_164(164),
+    UNKNOWN_200(200),
+    UNKNOWN_214(214),
+    UNKNOWN_216(216),
+    UNKNOWN_221(221),
+    UNKNOWN_225(225),
+    UNKNOWN_226(226),
+    UNKNOWN_228(228),
+    UNKNOWN_229(229),
+    UNKNOWN_235(235),
+    UNKNOWN_236(236),
+    UNKNOWN_238(238),
+    UNKNOWN_241(241),
+    UNKNOWN_254(254),
+
     TEXT_CHANPARAMS(215),
     TEXT_ENVLFOPARAMS(218),
     TEXT_BASICCHANPARAMS(219),
@@ -154,12 +185,20 @@ public enum FLPEventType {
         return subType;
     }
 
+    private static final List<FLPEventType> IGNORED = Arrays.asList(
+            UNKNOWN_98,
+            UNKNOWN_225,
+            UNKNOWN_238,
+            UNKNOWN_235,
+            UNKNOWN_236,
+            FX_IN_CHANNEL_NUM,
+            FX_OUT_CHANNEL_NUM,
+            TEXT_PLUGINPARAMS,
+            TEXT_PLAYLISTITEMS
+    );
+
     public boolean isSkippable() {
-        return
-                this == ENABLED
-                        || this == UNKNOWN
-                        || this == FX_IN_CHANNEL_NUM
-                        || this == FX_OUT_CHAN_NUM;
+        return IGNORED.contains(this);
     }
 
     public enum SubType {
@@ -186,7 +225,11 @@ public enum FLPEventType {
     }
 
     public static FLPEventType find(long id) {
-        return Arrays.stream(values()).filter(v -> v.value == id).findAny().orElse(UNKNOWN);
+        FLPEventType type = Arrays.stream(values()).filter(v -> v.value == id).findAny().orElse(UNKNOWN);
+        if (type.equals(UNKNOWN)) {
+            System.out.println("Unknown ID: " + id);
+        }
+        return type;
     }
 
 }
